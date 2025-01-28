@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { Registration } from './components/setup/registration';
-import { Organization } from './components/setup/organization';
-import { WebsiteScraping } from './components/setup/website-scraping';
-import { Integration } from './components/setup/integration';
-import { motion } from 'framer-motion';
-import { Bot, Building2, Globe, Wrench } from 'lucide-react';
+import { useState } from "react";
+import { Registration } from "./components/setup/registration";
+import { Organization } from "./components/setup/organization";
+import { WebsiteScraping } from "./components/setup/website-scraping";
+import { Integration } from "./components/setup/integration";
+import { motion } from "framer-motion";
+import { Bot, Building2, Globe, Wrench } from "lucide-react";
 
 const steps = [
-  { icon: Bot, label: 'Registration' },
-  { icon: Building2, label: 'Organization' },
-  { icon: Globe, label: 'Website Analysis' },
-  { icon: Wrench, label: 'Integration' },
+  { icon: Bot, label: "Registration" },
+  { icon: Building2, label: "Organization" },
+  { icon: Globe, label: "Website Analysis" },
+  { icon: Wrench, label: "Integration" },
 ] as const;
 
 function App() {
@@ -36,19 +36,8 @@ function App() {
           <div className="mx-auto max-w-xl">
             <div className="flex justify-between">
               {steps.map((step, index) => (
-                <div
-                  key={step.label}
-                  className="flex flex-1 items-center"
-                >
-                  <div
-                    className={`flex items-center ${
-                      index === currentStep
-                        ? 'text-blue-600'
-                        : index < currentStep
-                        ? 'text-green-600'
-                        : 'text-gray-400'
-                    }`}
-                  >
+                <div key={step.label} className="flex flex-1 items-center">
+                  <div className={`flex items-center ${index === currentStep ? "text-blue-600" : index < currentStep ? "text-green-600" : "text-gray-400"}`}>
                     <div className="relative flex items-center justify-center">
                       <motion.div
                         initial={false}
@@ -59,18 +48,10 @@ function App() {
                       >
                         <step.icon className="h-6 w-6" />
                       </motion.div>
-                      <div className="absolute -bottom-6 whitespace-nowrap text-sm font-medium">
-                        {step.label}
-                      </div>
+                      <div className="absolute -bottom-6 whitespace-nowrap text-sm font-medium">{step.label}</div>
                     </div>
                   </div>
-                  {index < steps.length - 1 && (
-                    <div
-                      className={`h-0.5 flex-1 ${
-                        index < currentStep ? 'bg-green-600' : 'bg-gray-200'
-                      }`}
-                    />
-                  )}
+                  {index < steps.length - 1 && <div className={`h-0.5 flex-1 ${index < currentStep ? "bg-green-600" : "bg-gray-200"}`} />}
                 </div>
               ))}
             </div>
