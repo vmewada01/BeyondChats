@@ -5,6 +5,7 @@ import { WebsiteScraping } from "./components/setup/website-scraping";
 import { Integration } from "./components/setup/integration";
 import { motion } from "framer-motion";
 import { Bot, Building2, Globe, Wrench } from "lucide-react";
+import Navbar from "./components/ui/Navbar";
 
 const steps = [
   { icon: Bot, label: "Registration" },
@@ -22,15 +23,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <nav className="border-b bg-white px-4 py-4">
-        <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Bot className="h-8 w-8 text-blue-600" />
-            <span className="text-xl font-bold">BeyondChats</span>
-          </div>
-        </div>
-      </nav>
-
+      <Navbar />
       <main className="mx-auto max-w-7xl px-4 py-8">
         <div className="mb-12">
           <div className="mx-auto max-w-xl">
