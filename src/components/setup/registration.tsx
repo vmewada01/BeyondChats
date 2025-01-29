@@ -1,22 +1,31 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Button } from "../ui/button";
-import { Form, Input } from "antd";
+import { Form, Input, Button, notification } from "antd";
 import { Chrome, Eye, EyeOff, Mail } from "lucide-react";
 
 export function Registration({ onComplete }: { onComplete: () => void }) {
+  const [form] = Form.useForm();
   const [step, setStep] = useState<"initial" | "verification">("initial");
-  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (values:any) => {
+    setIsLoading(true);
     if (step === "initial") {
-      setStep("verification");
-    } else {
-      onComplete();
-    }
+      setTimeout(()=> {
+        setStep("verification");
+       notification.success({
+        message: "Verification code sent to your email",
+        description: `We have sent a verification code to ${values.email}`,
+        placement: "topRight",
+       })
+       setIsLoading(false);
+      },5000)
+    } 
   };
 
+  const handleSubmitVerication =()=> {
+    onComplete();
+  }
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md space-y-8">
       <div className="text-center">
@@ -26,29 +35,50 @@ export function Registration({ onComplete }: { onComplete: () => void }) {
 
       {step === "initial" ? (
         <>
-          <Form onFinish={handleSubmit} className="space-y-6">
+          <Form disabled={isLoading} form={form} onFinish={handleSubmit} className="space-y-6">
             <div className="space-y-4">
-              <Form.Item rules={[{ required: true, message: "Please enter your name" }]}>
+              <Form.Item
+                name={"name"}
+                rules={[
+                  { required: true, message: "Please enter your name" },
+                  { min: 3, max: 20, message: "Full Name should have 3-20 letters only" },
+                ]}
+              >
                 <Input placeholder="Full Name" autoComplete="name" size="large" />
               </Form.Item>
-              <Form.Item rules={[{ required: true, message: "Please enter your email" }]}>
-                <Input type="email" placeholder="Email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} size="large" />
+              <Form.Item
+                name={"email"}
+                rules={[
+                  { required: true, message: "Please enter your email" },
+                  { min: 7, max: 50, message: "Email should have 3 - 50 letters only" },
+                ]}
+              >
+                <Input type="email" placeholder="Email" autoComplete="email" size="large" />
               </Form.Item>
-              <Form.Item rules={[{ required: true, message: "Please enter your password" }]}>
+              <Form.Item
+                name={"password"}
+                rules={[
+                  { required: true, message: "Please enter your password" },
+                  {
+                    pattern: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,15}$/,
+                    message: "Password should be at least 1 lowercase letter, 1 uppercase letter, 1 digit, 1 special character  and is at least 8 and at most 15 characters long!",
+                  },
+                ]}
+              >
                 <Input.Password type="password" placeholder="Password" autoComplete="new-password" iconRender={(visible) => (visible ? <Eye /> : <EyeOff />)} size="large" />
               </Form.Item>
             </div>
-           <Form.Item>
-            <div className="space-y-3">
-              <Button className="w-full" type="submit">
-                Create Account
-              </Button>
+            <Form.Item>
+              <div className="space-y-3">
+                <Button loading={isLoading} type="primary" size="large" className="w-full" htmlType="submit">
+                  Create Account
+                </Button>
 
-              <Button type="button" variant="outline" className="w-full">
-                <Chrome className="mr-2 h-5 w-5" />
-                Continue with Google
-              </Button>
-            </div>
+                <Button size="large" htmlType="submit" variant="outlined" className="w-full">
+                  <Chrome className="mr-2 h-5 w-5" />
+                  Continue with Google
+                </Button>
+              </div>
             </Form.Item>
           </Form>
         </>
@@ -58,7 +88,7 @@ export function Registration({ onComplete }: { onComplete: () => void }) {
             <Mail className="h-12 w-12 text-blue-600" />
           </div>
           <Input placeholder="Enter verification code" required className="text-center text-lg tracking-widest" maxLength={6} size="large" />
-          <Button className="w-full" type="submit">
+          <Button onClick={handleSubmitVerication}  size="large" className="w-full" htmlType="submit">
             Verify Email
           </Button>
         </div>
