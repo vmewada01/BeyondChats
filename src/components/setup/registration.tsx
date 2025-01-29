@@ -11,6 +11,7 @@ export function Registration({ onComplete }: { onComplete: () => void }) {
   const handleSubmit = async (values:any) => {
     setIsLoading(true);
     if (step === "initial") {
+      // TODO :- doing the timeout we can integrate the api as well 
       setTimeout(()=> {
         setStep("verification");
        notification.success({
@@ -26,6 +27,7 @@ export function Registration({ onComplete }: { onComplete: () => void }) {
   const handleSubmitVerication =()=> {
     onComplete();
   }
+
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md space-y-8">
       <div className="text-center">
@@ -40,7 +42,7 @@ export function Registration({ onComplete }: { onComplete: () => void }) {
               <Form.Item
                 name={"name"}
                 rules={[
-                  { required: true, message: "Please enter your name" },
+                  { required: true, message: "Please enter your full name" },
                   { min: 3, max: 20, message: "Full Name should have 3-20 letters only" },
                 ]}
               >
@@ -88,7 +90,7 @@ export function Registration({ onComplete }: { onComplete: () => void }) {
             <Mail className="h-12 w-12 text-blue-600" />
           </div>
           <Input placeholder="Enter verification code" required className="text-center text-lg tracking-widest" maxLength={6} size="large" />
-          <Button onClick={handleSubmitVerication}  size="large" className="w-full" htmlType="submit">
+          <Button type="primary" onClick={handleSubmitVerication}  size="large" className="w-full" htmlType="submit">
             Verify Email
           </Button>
         </div>
