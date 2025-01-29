@@ -26,7 +26,7 @@ export function Organization({ onComplete }: { onComplete: () => void }) {
           <Input size="large" placeholder="Company Name" />
         </Form.Item>
 
-        <Form.Item name="websiteUrl" rules={[{ required: true, message: "Please enter website URL" }]} label="Website URL">
+        <Form.Item name="websiteUrl" rules={[{ type: "url", required: true, message: "Please enter website URL" }]} label="Website URL">
           <Input size="large" placeholder="Website URL" suffix={loading ? <Loader2 /> : null} />
         </Form.Item>
 

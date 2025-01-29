@@ -2,32 +2,40 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Form, Input, Button, notification } from "antd";
 import { Chrome, Eye, EyeOff, Mail } from "lucide-react";
+import { GoogleLogin } from "@react-oauth/google";
 
 export function Registration({ onComplete }: { onComplete: () => void }) {
   const [form] = Form.useForm();
   const [step, setStep] = useState<"initial" | "verification">("initial");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (values:any) => {
+  const handleSubmit = async (values: any) => {
     setIsLoading(true);
     if (step === "initial") {
-      // TODO :- doing the timeout we can integrate the api as well 
-      setTimeout(()=> {
+      // TODO :- doing the timeout we can integrate the api as well
+      setTimeout(() => {
         setStep("verification");
-       notification.success({
-        message: "Verification code sent to your email",
-        description: `We have sent a verification code to ${values.email}`,
-        placement: "topRight",
-       })
-       setIsLoading(false);
-      },5000)
-    } 
+        notification.success({
+          message: "Verification code sent to your email",
+          description: `We have sent a verification code to ${values.email}`,
+          placement: "topRight",
+        });
+        setIsLoading(false);
+      }, 5000);
+    }
   };
 
-  const handleSubmitVerication =()=> {
+  const handleSubmitVerication = () => {
     onComplete();
-  }
+  };
 
+  const googleLogin = async (tokenId: string) => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setStep("verification");
+      setIsLoading(false);
+    }, 5000);
+  };
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md space-y-8">
       <div className="text-center">
@@ -73,13 +81,23 @@ export function Registration({ onComplete }: { onComplete: () => void }) {
             <Form.Item>
               <div className="space-y-3">
                 <Button loading={isLoading} type="primary" size="large" className="w-full" htmlType="submit">
-                  Create Account
+                  {isLoading ? "Creating.." : "Create Account"}
                 </Button>
 
-                <Button size="large" htmlType="submit" variant="outlined" className="w-full">
-                  <Chrome className="mr-2 h-5 w-5" />
-                  Continue with Google
-                </Button>
+                <GoogleLogin
+                  onSuccess={(credentialResponse) => {
+                    if (credentialResponse.credential) {
+                      googleLogin(credentialResponse.credential);
+                    } else {
+                      notification.error({
+                        message: "Error",
+                        description: "Google login failed",
+                      });
+                    }
+                  }}
+                  size="large"
+                  shape="rectangular"
+                />
               </div>
             </Form.Item>
           </Form>
@@ -90,7 +108,7 @@ export function Registration({ onComplete }: { onComplete: () => void }) {
             <Mail className="h-12 w-12 text-blue-600" />
           </div>
           <Input placeholder="Enter verification code" required className="text-center text-lg tracking-widest" maxLength={6} size="large" />
-          <Button type="primary" onClick={handleSubmitVerication}  size="large" className="w-full" htmlType="submit">
+          <Button type="primary" onClick={handleSubmitVerication} size="large" className="w-full" htmlType="submit">
             Verify Email
           </Button>
         </div>
