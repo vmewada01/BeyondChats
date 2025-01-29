@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Button } from '../ui/button';
-import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
+import { CheckCircle2, Loader2, SkipForward, StepForward, XCircle } from 'lucide-react';
+import { Button, Space } from 'antd';
 
 const DUMMY_PAGES = [
   { url: '/about', status: 'completed' },
@@ -71,7 +71,7 @@ export function WebsiteScraping({ onComplete }: { onComplete: () => void }) {
                   <Loader2 className="h-5 w-5 animate-spin text-blue-500" />
                 )}
                 {page.status === 'pending' && (
-                  <XCircle className="h-5 w-5 text-gray-400" />
+                  <XCircle className="h-5 w-5 text-red-600" />
                 )}
               </button>
             ))}
@@ -101,14 +101,14 @@ export function WebsiteScraping({ onComplete }: { onComplete: () => void }) {
         </div>
       </div>
 
-      <div className="flex justify-end space-x-4">
-        <Button variant="outline" onClick={onComplete}>
+      <Space>
+      <Button type='primary' size='large' icon={<SkipForward />} variant="outlined" onClick={onComplete}>
           Skip Training
         </Button>
-        <Button onClick={onComplete} disabled={progress < 100}>
+        <Button type='primary' size='large' icon={<StepForward />} onClick={onComplete} disabled={progress < 100}>
           {progress < 100 ? 'Training in Progress...' : 'Continue'}
         </Button>
-      </div>
+      </Space>
     </motion.div>
   );
 }

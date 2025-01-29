@@ -1,16 +1,16 @@
-import { Bot } from 'lucide-react'
+import { Bot } from "lucide-react";
 
-const Navbar = () => {
+const Navbar = ({ setCurrentStep }: { setCurrentStep: (step: number) => void }) => {
   return (
     <nav className="border-b bg-white px-4 py-4">
-    <div className="mx-auto flex max-w-7xl items-center justify-between">
-      <div className="flex items-center space-x-2">
-        <Bot className="h-8 w-8 text-blue-600" />
-        <span className="text-xl font-bold">BeyondChats</span>
+      <div className="mx-auto flex max-w-7xl items-center justify-between">
+        <div className="flex items-center space-x-2 cursor-pointer" onClick={() => setCurrentStep(0)}>
+          <Bot className="h-8 w-8 text-blue-600" />
+          <span className="text-xl font-bold">BeyondChats</span>
+        </div>
       </div>
-    </div>
-  </nav>
-  )
-}
+    </nav>
+  );
+};
 
-export default Navbar
+export default Navbar;

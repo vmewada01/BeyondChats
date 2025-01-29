@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Form, Input, Button, notification } from "antd";
-import { Chrome, Eye, EyeOff, Mail } from "lucide-react";
+import { Chrome, Eye, EyeOff, Mail, ShieldEllipsis } from "lucide-react";
 import { GoogleLogin } from "@react-oauth/google";
 
 export function Registration({ onComplete }: { onComplete: () => void }) {
@@ -80,7 +80,7 @@ export function Registration({ onComplete }: { onComplete: () => void }) {
             </div>
             <Form.Item>
               <div className="space-y-3">
-                <Button loading={isLoading} type="primary" size="large" className="w-full" htmlType="submit">
+                <Button icon={<ShieldEllipsis />} loading={isLoading} type="primary" size="large" className="w-full" htmlType="submit">
                   {isLoading ? "Creating.." : "Create Account"}
                 </Button>
 
@@ -108,7 +108,7 @@ export function Registration({ onComplete }: { onComplete: () => void }) {
             <Mail className="h-12 w-12 text-blue-600" />
           </div>
           <Input placeholder="Enter verification code" required className="text-center text-lg tracking-widest" maxLength={6} size="large" />
-          <Button type="primary" onClick={handleSubmitVerication} size="large" className="w-full" htmlType="submit">
+          <Button icon={<ShieldEllipsis />} type="primary" onClick={handleSubmitVerication} size="large" className="w-full" htmlType="submit">
             Verify Email
           </Button>
         </div>

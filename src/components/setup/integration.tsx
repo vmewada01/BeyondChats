@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Button } from "../ui/button";
-import { Code2, Mail, MessageSquare, Share2, Trophy } from "lucide-react";
+import { Code2, Files, Mail, MessageSquare, Share2, ShieldEllipsis, Trophy } from "lucide-react";
 import confetti from "canvas-confetti";
+import { Button, notification } from "antd";
 
 const INTEGRATION_CODE = `<script>
   window.BEYONDCHATS_CONFIG = {
@@ -17,6 +17,20 @@ export function Integration() {
 
   const handleSuccess = () => {
     setStep("success");
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+    });
+  };
+
+  const handleCopyCodeFunction = (CODE: string) => {
+    navigator.clipboard.writeText(CODE);
+    notification.success({
+      message: "Code copied to clipboard",
+      placement: "topRight",
+      duration: 2,
+    });
     confetti({
       particleCount: 100,
       spread: 70,
@@ -49,9 +63,9 @@ export function Integration() {
 
       {step === "testing" && (
         <div className="relative min-h-[500px] rounded-lg border border-gray-200">
-          <div className="flex items-center justify-between border-b border-gray-200 bg-white p-4">
+          <div className="flex flex-col gap-2 items-center justify-between border-b border-gray-200 bg-white p-4 sm:flex-row">
             <span className="font-medium">Preview Mode</span>
-            <Button variant="outline" onClick={handleSuccess}>
+            <Button size="large" type="primary" icon={<ShieldEllipsis />} variant="outlined" onClick={handleSuccess}>
               Complete Integration
             </Button>
           </div>
@@ -90,39 +104,29 @@ export function Integration() {
               <code>{INTEGRATION_CODE}</code>
             </pre>
             <div className="mt-4 flex justify-end">
-              <Button
-                variant="outline"
-                onClick={() => {
-                  navigator.clipboard.writeText(INTEGRATION_CODE);
-                }}
-              >
+              <Button type="primary" size="large" variant="outlined" onClick={() => handleCopyCodeFunction(INTEGRATION_CODE)} icon={<Files />}>
                 Copy Code
               </Button>
             </div>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4">
-            <Button size="lg">
-              <Trophy className="mr-2 h-5 w-5" />
-              Explore Admin Panel
-            </Button>
-            <Button size="lg" variant="outline">
-              <MessageSquare className="mr-2 h-5 w-5" />
+          <div className="flex flex-wrap justify-center gap-4 sm:min-w-full">
+            <Button className="w-full sm:w-auto" type="primary" icon={<MessageSquare />} size="large" variant="outlined">
               Start Chatting
+            </Button>
+            <Button className="w-full sm:w-auto" type="primary" icon={<Trophy />} size="large">
+              Explore Admin Panel
             </Button>
           </div>
 
-          <div className="flex justify-center space-x-4">
-            <Button variant="outline" size="sm">
-              <Share2 className="mr-2 h-4 w-4" />
+          <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <Button onClick={() => window.open("https://twitter.com/BeyondChats", "_blank")} icon={<Share2 />} variant="outlined" size="middle">
               Share on Twitter
             </Button>
-            <Button variant="outline" size="sm">
-              <Share2 className="mr-2 h-4 w-4" />
+            <Button onClick={() => window.open("https://www.linkedin.com/company/beyondchats", "_blank")} icon={<Share2 />} variant="outlined" size="middle">
               Share on LinkedIn
             </Button>
-            <Button variant="outline" size="sm">
-              <Mail className="mr-2 h-4 w-4" />
+            <Button onClick={() => window.open("https://beyondchats.com/", "_blank")} icon={<Mail />} variant="outlined" size="middle">
               Email Developer
             </Button>
           </div>
