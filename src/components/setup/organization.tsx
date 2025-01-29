@@ -7,7 +7,7 @@ export function Organization({ onComplete }: { onComplete: () => void }) {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async () => {
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setLoading(false);

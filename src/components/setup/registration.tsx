@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Form, Input, Button, notification } from "antd";
-import { Chrome, Eye, EyeOff, Mail, ShieldEllipsis } from "lucide-react";
+import {  Eye, EyeOff, Mail, ShieldEllipsis } from "lucide-react";
 import { GoogleLogin } from "@react-oauth/google";
 
 type Step = "initial" | "verification";
@@ -30,7 +30,7 @@ export function Registration({ onComplete }: { onComplete: () => void }) {
     onComplete();
   };
 
-  const handleGoogleLogin = async (tokenId: string) => {
+  const handleGoogleLogin = async () => {
     setIsLoading(true);
     setTimeout(() => {
       setStep("verification");
@@ -93,7 +93,7 @@ export function Registration({ onComplete }: { onComplete: () => void }) {
           <GoogleLogin
             onSuccess={(credentialResponse) => {
               if (credentialResponse.credential) {
-                handleGoogleLogin(credentialResponse.credential);
+                handleGoogleLogin();
               } else {
                 notification.error({
                   message: "Error",
