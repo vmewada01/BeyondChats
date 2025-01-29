@@ -11,7 +11,7 @@ const INTEGRATION_CODE = `<script>
 </script>
 <script async src="https://cdn.beyondchats.ai/widget.js"></script>`;
 
-export function Integration() {
+export function Integration({ setCurrentStep }: { setCurrentStep: (step: number) => void }) {
   const [step, setStep] = useState<"options" | "success" | "testing">("options");
   const [showChatbot, setShowChatbot] = useState(false);
 
@@ -82,7 +82,7 @@ export function Integration() {
           )}
 
           {showChatbot && (
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="fixed bottom-6 right-6 h-[400px] w-[350px] rounded-lg bg-white shadow-xl">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="fixed bottom-6 right-6 h-[400px] w-[90%] max-w-[350px] rounded-lg bg-white shadow-xl sm:w-[350px]">
               <div className="flex items-center justify-between border-b p-4">
                 <span className="font-medium">Chat with us</span>
                 <button onClick={() => setShowChatbot(false)} className="text-gray-500 hover:text-gray-700">
@@ -111,10 +111,10 @@ export function Integration() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-4 sm:min-w-full">
-            <Button className="w-full sm:w-auto" type="primary" icon={<MessageSquare />} size="large" variant="outlined">
+            <Button onClick={() => window.open("https://beyondchats.com/", "_blank")} className="w-full sm:w-auto" type="primary" icon={<MessageSquare />} size="large" variant="outlined">
               Start Chatting
             </Button>
-            <Button className="w-full sm:w-auto" type="primary" icon={<Trophy />} size="large">
+            <Button onClick={() => setCurrentStep(0)} className="w-full sm:w-auto" type="primary" icon={<Trophy />} size="large">
               Explore Admin Panel
             </Button>
           </div>
@@ -126,7 +126,7 @@ export function Integration() {
             <Button onClick={() => window.open("https://www.linkedin.com/company/beyondchats", "_blank")} icon={<Share2 />} variant="outlined" size="middle">
               Share on LinkedIn
             </Button>
-            <Button onClick={() => window.open("https://beyondchats.com/", "_blank")} icon={<Mail />} variant="outlined" size="middle">
+            <Button onClick={() => window.open("mailto:example@email.com", "_blank")} icon={<Mail />} variant="outlined" size="middle">
               Email Developer
             </Button>
           </div>
