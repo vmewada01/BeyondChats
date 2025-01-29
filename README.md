@@ -2,7 +2,7 @@ BeyondChats Assignment Submission
 
 Live Demo
 
-Live Website URL (https://beyond-chats-qekh2pcdf-vmewada01s-projects.vercel.app)
+Live Website URL (https://beyond-chats-2kn1xk8tx-vmewada01s-projects.vercel.app)
 
 Tech Stack
 
