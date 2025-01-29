@@ -10,6 +10,7 @@ export function Registration({ onComplete }: { onComplete: () => void }) {
   const [form] = Form.useForm();
   const [step, setStep] = useState<Step>("initial");
   const [isLoading, setIsLoading] = useState(false);
+  const [verificationCode, setVerificationCode] = useState("");
 
   const handleSubmit = async (values: any) => {
     setIsLoading(true);
@@ -20,6 +21,7 @@ export function Registration({ onComplete }: { onComplete: () => void }) {
           message: "Verification code sent to your email",
           description: `We have sent a verification code to ${values.email}`,
           placement: "topRight",
+          duration: 2,
         });
         setIsLoading(false);
       }, 5000);
@@ -27,6 +29,7 @@ export function Registration({ onComplete }: { onComplete: () => void }) {
   };
 
   const handleSubmitVerification = () => {
+    if(!verificationCode) return notification.error({ message: "Please enter verification code", duration: 2 });
     onComplete();
   };
 
@@ -120,6 +123,8 @@ export function Registration({ onComplete }: { onComplete: () => void }) {
         className="text-center text-lg tracking-widest"
         maxLength={6}
         size="large"
+        value={verificationCode}
+        onChange={(e) => setVerificationCode(e.target.value.replace(/[^0-9]/g, ""))}
       />
       <Button
         icon={<ShieldEllipsis />}
