@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import { Bot, Building2, Globe, Wrench } from "lucide-react";
 import Navbar from "./components/ui/Navbar";
 
+// TODO SIDE PROJECT
+
 interface StepperProps {
   currentStep: number;
   steps: typeof steps;
